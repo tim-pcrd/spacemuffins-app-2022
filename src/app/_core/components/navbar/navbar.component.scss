@@ -1,0 +1,55 @@
+@use '../../../../styles/components/mixins' as *;
+@use '../../../../styles/components/variables' as *;
+
+.navbar {
+  @include gradient;
+  height: 55px;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+
+  .navbar-logo {
+    background-color: white;
+    color: $primary;
+    border-radius: 25px;
+  }
+
+  .navbar-logo-title {
+    font-size: 1.5rem;
+  }
+
+  img {
+    height: 55px
+  }
+
+
+  @media (min-width: 576px) {
+    height: 60px;
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
+
+    .navbar-logo-title {
+      font-size: 1.7rem;
+    }
+
+    img {
+      height: 60px;
+    }
+
+  }
+
+}
+
+nav {
+  a, button {
+    color:white;
+  }
+
+  .sidenav-button {
+    font-size: 2rem;
+  }
+
+}
+
+
+
+

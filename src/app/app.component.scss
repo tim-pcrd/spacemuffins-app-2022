@@ -1,0 +1,20 @@
+@use '../styles/components/mixins' as *;
+
+.mat-container {
+  height: 100%;
+}
+
+
+.content {
+  @include gradient;
+  min-height: 100%;
+}
+
+.sidenav {
+  width: 250px;
+  @include gradient;
+}
+
+.spinner-title {
+  color:white;
+}

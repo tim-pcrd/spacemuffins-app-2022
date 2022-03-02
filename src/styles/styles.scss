@@ -1,0 +1,105 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+@use 'components/mixins' as *;
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+$my-palette: (
+    50 : #e6eaea,
+    100 : #bfcbca,
+    200 : #95a8a6,
+    300 : #6b8582,
+    400 : #4b6b68,
+    500 : #2b514d,
+    600 : #264a46,
+    700 : #20403d,
+    800 : #1a3734,
+    900 : #102725,
+    A100 : #68ffee,
+    A200 : #35ffe9,
+    A400 : #02ffe3,
+    A700 : #00e7cd,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$quizploeg-spacemuffins-app-primary: mat.define-palette($my-palette);
+$quizploeg-spacemuffins-app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$quizploeg-spacemuffins-app-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$quizploeg-spacemuffins-app-theme: mat.define-light-theme((
+  color: (
+    primary: $quizploeg-spacemuffins-app-primary,
+    accent: $quizploeg-spacemuffins-app-accent,
+    warn: $quizploeg-spacemuffins-app-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($quizploeg-spacemuffins-app-theme);
+
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.fas {
+  margin-top: 4px;
+  font-size: 1.2rem;
+}
+
+.section-white {
+  background-color: rgba(255, 255, 255, 0.945);
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 5px 10px 18px -3px rgba(0,0,0,0.75);
+  margin: 0 1rem;
+}
+
+.main {
+  background-color: rgba(255, 255, 255, 0.945);
+  min-height: 80vh;
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 5px 10px 18px -3px rgba(0,0,0,0.75);
+  margin: 0 1rem;
+  margin-bottom:2rem;
+}
+
+
+
+
