@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './_core/components/navbar/navbar.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
 import { SharedModule } from './_shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -48,7 +47,6 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
     SharedModule,
     NgxSpinnerModule,
     MatSidenavModule,

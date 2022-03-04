@@ -10,6 +10,8 @@ import { IUser } from '../_shared/models/user';
 import { QuizService } from './quiz.service';
 import * as _ from 'lodash';
 import { AuthService } from '../auth/auth.service';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-quizzes',
@@ -38,7 +40,12 @@ export class QuizzesComponent implements OnInit, OnDestroy {
     private quizService: QuizService,
     private seasonService: SeasonService,
     private route: ActivatedRoute,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer) {
+      this.matIconRegistry.addSvgIcon('gmaps',this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/google-maps-icon.svg'));
+      this.matIconRegistry.addSvgIcon('gcalendar', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/google-calendar-icon.svg'));
+    }
 
 
   ngOnInit(): void {
