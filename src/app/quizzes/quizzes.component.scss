@@ -4,6 +4,11 @@ table {
 
 tr.detail-row {
   height: 0;
+  background-color:rgb(240, 239, 239);
+}
+
+tr.expanded-row {
+  background-color:rgb(240, 239, 239);;
 }
 
 tr.element-row:not(.expanded-row):hover {
@@ -20,5 +25,12 @@ tr.element-row:not(.expanded-row):active {
 
 .element-detail {
   overflow: hidden;
+}
+
+.neum {
+  border-radius: 12px;
+  background: linear-gradient(145deg, #d8d7d7, #ffffff);
+  box-shadow:  7px 7px 25px #cccbcb,
+               -7px -7px 25px #ffffff;
 }
 

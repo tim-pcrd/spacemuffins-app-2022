@@ -11,10 +11,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { TriStateCheckboxComponent } from './components/tri-state-checkbox/tri-state-checkbox.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
+import { DateTodayComponent } from './components/date-today/date-today.component';
 
 @NgModule({
   declarations: [
-    TriStateCheckboxComponent
+    TriStateCheckboxComponent,
+    DateTodayComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import {MatCardModule} from '@angular/material/card';
     MatCheckboxModule,
     ReactiveFormsModule,
     TriStateCheckboxComponent,
-    MatCardModule
+    MatCardModule,
+    DateTodayComponent
   ]
 })
 export class SharedModule { }

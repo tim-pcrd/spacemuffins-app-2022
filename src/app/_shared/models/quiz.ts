@@ -15,6 +15,7 @@ export interface IQuiz {
   fixedPoints?: number;
   variablePoints?: number;
   position?: number;
+  totalTeams?: number;
   score?: number;
   maxScore?: number;
   link?: string;
