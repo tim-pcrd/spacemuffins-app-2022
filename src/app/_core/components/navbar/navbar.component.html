@@ -1,4 +1,4 @@
-<nav class="navbar flex drop-shadow-lg sticky top-0 justify-between z-10">
+<nav class="navbar flex drop-shadow-lg sticky top-0 justify-between z-50">
   <div class="navbar-logo flex items-center my-2 px-4">
     <img src="assets/images/logo_200w.png" class="mr-2" alt="spacemuffins">
     <div class="navbar-logo-title">
@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="navbar-end items-center hidden lg:flex">
-    <a mat-button>
+    <a mat-button [routerLink]="['/quizzen']" routerLinkActive="active-link">
       <mat-icon fontSet="fas" fontIcon="fa-list"></mat-icon>
       Quizoverzicht
     </a>

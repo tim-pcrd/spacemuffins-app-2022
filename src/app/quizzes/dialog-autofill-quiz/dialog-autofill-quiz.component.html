@@ -1,0 +1,10 @@
+<h1 mat-dialog-title class="text-primary">Autofill</h1>
+<div mat-dialog-content>
+  <mat-form-field class="w-full">
+    <mat-label>BQB-link</mat-label>
+    <input matInput [(ngModel)]="url">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="url" cdkFocusInitial class="w-full" color="primary">Ok</button>
+</div>

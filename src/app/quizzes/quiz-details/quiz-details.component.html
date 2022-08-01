@@ -1,0 +1,129 @@
+<section class="main">
+  <div class="mb-6 flex justify-between">
+    <p class="text-2xl text-primary">Nieuwe quiz</p>
+    <eco-fab-speed-dial direction="left" animationMode="scale">
+      <eco-fab-speed-dial-trigger [spin]="true">
+        <button mat-fab (click)="doAction('trigger')" color="primary"><mat-icon>menu</mat-icon></button>
+      </eco-fab-speed-dial-trigger>
+      <eco-fab-speed-dial-actions>
+        <button mat-mini-fab (click)="doAction('action1')" color="primary"><mat-icon>edit</mat-icon></button>
+        <button mat-mini-fab (click)="doAction('action2')" color="primary"><mat-icon>delete</mat-icon></button>
+      </eco-fab-speed-dial-actions>
+    </eco-fab-speed-dial>
+  </div>
+
+  <div *ngIf="data$ | async as data">
+
+    <div *ngIf="!editMode"></div>
+
+    <form *ngIf="editMode" [formGroup]="quizForm" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3" (ngSubmit)="save()">
+
+      <div class="order-1">
+        <mat-form-field>
+          <mat-label>Naam</mat-label>
+          <input matInput formControlName="name">
+          <mat-error *ngIf="quizForm.get('name')?.invalid">Verplicht veld</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="order-2">
+        <mat-form-field>
+          <mat-label>Datum & uur</mat-label>
+          <input matInput [ngxMatDatetimePicker]="picker" formControlName="date">
+          <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #picker [defaultTime]="defaultTime">
+          </ngx-mat-datetime-picker>
+          <mat-error *ngIf="quizForm.get('date')?.invalid">Verplicht veld</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="md:col-span-2 order-3">
+        <mat-form-field>
+          <mat-label>Straat + Nr (of zaal)</mat-label>
+          <input matInput formControlName="address">
+          <mat-error *ngIf="quizForm.get('address')?.invalid">Verplicht veld</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="order-4">
+        <mat-form-field>
+          <mat-label>Postcode</mat-label>
+          <input matInput type="number" formControlName="zipcode">
+          <mat-error *ngIf="quizForm.get('zipcode')?.invalid">Verplicht veld</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="order-5">
+        <mat-form-field class="relative">
+          <mat-label>Stad/gemeente</mat-label>
+          <mat-select formControlName="city" [disabled]="cityList.length === 0">
+            <mat-option selected *ngIf="cityList.length === 0" value="">Kies een geldige postcode</mat-option>
+            <mat-option *ngFor="let city of cityList" [value]="city.naam_deelgemeente">{{city.naam_deelgemeente}}</mat-option>
+          </mat-select>
+          <mat-spinner [diameter]="25" class="!absolute top-2 right-6" *ngIf="showSpinner"></mat-spinner>
+          <mat-error *ngIf="quizForm.get('city')?.invalid">Verplicht veld</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="order-6">
+        <mat-form-field>
+          <mat-label>Aantal spelers</mat-label>
+          <input matInput type="number" formControlName="numberOfPlayers">
+          <mat-error *ngIf="quizForm.get('numberOfPlayers')?.invalid">Verplicht veld</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="order-8 md:order-7">
+        <mat-form-field >
+          <mat-label>Vaste invallers</mat-label>
+          <mat-select formControlName="regularPlayers" multiple>
+            <mat-option *ngFor="let player of regularPlayers" [value]="player.id">{{player.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div formArrayName="corePlayers" class="md:row-span-2 order-7 md-order-8">
+        <div *ngFor="let control of corePlayersFormArray.controls; let i = index" class="border-2 rounded-xl p-2 mb-2 relative"
+          [ngClass]="{'bg-red-400': control.value === false, 'bg-green-400': control.value === true}">
+          <app-tri-state-checkbox [formControlName]="i">{{corePlayers[i].id === data.currentUser.id ? 'Ik doe mee' : corePlayers[i].name}}</app-tri-state-checkbox>
+          <i class="fas absolute right-3" [ngClass]="{'text-red-700 fa-thumbs-down': control.value === false, 'text-green-700 fa-thumbs-up': control.value === true}"></i>
+        </div>
+      </div>
+
+      <div class="order-9">
+        <mat-form-field>
+          <mat-label>Gastspelers</mat-label>
+          <mat-chip-list #chipList aria-label="gastspelers" multiple formControlName="guests">
+            <mat-chip *ngFor="let guest of quizForm.controls['guests']?.value" (removed)="removeGuest(guest)">
+              {{guest}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="addGuest($event)"
+              placeholder="Nieuwe gast...">
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+
+      <div class="order-10">
+        <mat-form-field>
+          <mat-label>Opmerkingen</mat-label>
+          <textarea matInput rows="6" formControlName="remarks"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="md:col-span-2 order-11 flex justify-center mt-5 mb-4">
+        <button mat-raised-button color="primary" class="w-full sm:w-52">
+          <mat-icon>save</mat-icon> OPSLAAN
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</section>

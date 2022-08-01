@@ -58,8 +58,6 @@ export class QuizzesComponent implements OnInit, OnDestroy {
     this.selectedSeason.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(season => this.quizService.getQuizzesBySeason(season));
-
-    console.log(this.dateNow);
   }
 
 

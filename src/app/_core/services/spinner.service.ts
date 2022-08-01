@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   providedIn: 'root'
 })
 export class SpinnerService {
-  requestCount = 0;
+  private requestCount = 0;
   constructor(private spinner: NgxSpinnerService) { }
 
   start() {

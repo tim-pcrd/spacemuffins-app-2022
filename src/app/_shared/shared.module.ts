@@ -12,11 +12,15 @@ import { TriStateCheckboxComponent } from './components/tri-state-checkbox/tri-s
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
 import { DateTodayComponent } from './components/date-today/date-today.component';
+import { TimestampDatePipe } from './pipes/timestamp-date.pipe';
+import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     TriStateCheckboxComponent,
-    DateTodayComponent
+    DateTodayComponent,
+    TimestampDatePipe
   ],
   imports: [
     CommonModule,
@@ -29,6 +33,7 @@ import { DateTodayComponent } from './components/date-today/date-today.component
     MatIconModule,
     MatMenuModule,
     ReactiveFormsModule,
+    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -37,7 +42,10 @@ import { DateTodayComponent } from './components/date-today/date-today.component
     ReactiveFormsModule,
     TriStateCheckboxComponent,
     MatCardModule,
-    DateTodayComponent
+    DateTodayComponent,
+    TimestampDatePipe,
+    EcoFabSpeedDialModule,
+    MatDialogModule
   ]
 })
 export class SharedModule { }

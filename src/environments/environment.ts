@@ -4,14 +4,12 @@
 
 export const environment = {
   firebase: {
-    projectId: 'quizploeg-spacemuffins',
-    appId: '1:111999521124:web:8a25822dc7155d97186a71',
-    storageBucket: 'quizploeg-spacemuffins.appspot.com',
-    locationId: 'europe-west',
-    apiKey: 'AIzaSyAjX0XjjACyFWQyMwBqdQDFcX9r4xvZvxk',
-    authDomain: 'quizploeg-spacemuffins.firebaseapp.com',
-    messagingSenderId: '111999521124',
-    measurementId: 'G-FVWH9B022C',
+    apiKey: "AIzaSyCACNKWtZjOIWy41c3oqXRYWC8th4lXVaU",
+    authDomain: "spacemuffins-dev.firebaseapp.com",
+    projectId: "spacemuffins-dev",
+    storageBucket: "spacemuffins-dev.appspot.com",
+    messagingSenderId: "476212359027",
+    appId: "1:476212359027:web:f142535a50ccbe66d19f06"
   },
   production: false,
   postcodeAPI: 'https://opzoeken-postcode.be/'

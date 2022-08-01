@@ -28,7 +28,7 @@ export class SeasonService {
         .subscribe(data => {
           console.log(data);
           this.seasonsSource.next(data as ISeason[]);
-        });
+        }, error => console.log(error));
     }
   }
 

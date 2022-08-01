@@ -23,7 +23,6 @@ import localeBe from '@angular/common/locales/nl-BE'
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(localeBe)
 
-
 const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
   parse: {
     dateInput: "ddd DD MMMM yyyy,  HH:mm"

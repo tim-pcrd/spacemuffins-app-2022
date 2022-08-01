@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, combineLatest, takeUntil, debounceTime, tap, filter, switchMap } from 'rxjs';
@@ -8,9 +8,12 @@ import { ICity } from 'src/app/_shared/models/city';
 import { IUser } from 'src/app/_shared/models/user';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment from 'moment'
 import { MatChipInputEvent } from '@angular/material/chips';
 import { QuizService } from '../quiz.service';
+import { QuizFormService } from '../quiz-form.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAutofillQuizComponent } from '../dialog-autofill-quiz/dialog-autofill-quiz.component';
 
 @Component({
   selector: 'app-create-quiz',
@@ -19,7 +22,7 @@ import { QuizService } from '../quiz.service';
 })
 export class CreateQuizComponent implements OnInit {
   private readonly destroy$ = new Subject<void>();
-  readonly separatorKeysCodes = [ENTER, COMMA]
+  readonly separatorKeysCodes = [ENTER, COMMA];
   currentUser!: IUser;
   private users: IUser[] = [];
   cityList: ICity[] = [];
@@ -46,6 +49,7 @@ export class CreateQuizComponent implements OnInit {
 
 
   get corePlayersFormArray(): FormArray {
+    //TODO change getter
     return this.quizForm.get('corePlayers') as FormArray;
   }
 
@@ -54,7 +58,9 @@ export class CreateQuizComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     private cityService: CityService,
-    private quizService: QuizService) {
+    private quizService: QuizService,
+    private quizFormService: QuizFormService,
+    private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -67,22 +73,25 @@ export class CreateQuizComponent implements OnInit {
       this.currentUser = currentUser;
       this.users = data['users'];
       console.log('hello');
-      this.setCoreAndRegularPlayers();
+      // this.setCoreAndRegularPlayers();
+      [this.corePlayers, this.regularPlayers] = this.quizFormService.getCoreAndRegularPlayers(this.currentUser, this.users);
       this.addCheckboxes();
       this.isLoading = false
     });
 
     this.getCityList();
+    this.quizService.getSiteInfo('http://www.bqb.be/aankondiging?A_ID=7346');
   }
 
   save() {
+    console.log(this.quizForm.value);
     if(!this.quizForm.valid) {
       return;
     }
 
     let _quiz = {
       ...this.quizForm.value,
-      players: this.getPlayers(),
+      players: this.quizFormService.getMergedPlayers(this.corePlayers, this.quizForm),
       date: this.getDate()
     };
 
@@ -108,16 +117,26 @@ export class CreateQuizComponent implements OnInit {
       this.quizForm.patchValue({guests: [...this.guests?.value, value]})
     }
     event.chipInput?.clear();
+    event.chipInput?.clear();
   }
 
-  private setCoreAndRegularPlayers() {
-    this.corePlayers =  _.sortBy(this.users.filter(x => x.roles.includes('core') && x.id !== this.currentUser.id), x => x.name);
-    this.regularPlayers = _.sortBy(this.users.filter(x => x.roles.includes('regular')), x => x.name);
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogAutofillQuizComponent, {
+      width: '300px',
+      data: '',
+    });
 
-    if(this.currentUser.roles.includes('core')) {
-      this.corePlayers.unshift(this.currentUser);
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this.quizService.getSiteInfo(result)
+        .then(quiz => {
+          console.log(quiz);
+          this.quizForm.patchValue(quiz)
+        })
+        .catch(error => console.log(error));
+    })
   }
+
 
   private addCheckboxes() {
     for(const player of this.corePlayers) {
@@ -130,7 +149,7 @@ export class CreateQuizComponent implements OnInit {
     zipcodeControl?.valueChanges
       .pipe(
         tap(() => this.showSpinner = true),
-        debounceTime(1000),
+        debounceTime(800),
         tap(zipcode => {
           this.cityList = [];
           if (zipcode < 1000 || zipcode > 9999) {
@@ -149,23 +168,6 @@ export class CreateQuizComponent implements OnInit {
       })
   }
 
-
-  // put core and regular players in same object
-  private getPlayers() {
-    let players: {[key:string]: boolean} = {};
-
-    for(const [index, value] of this.quizForm.get('corePlayers')?.value.entries()) {
-      if(value != null) {
-        players[this.corePlayers[index].id!] = value;
-      }
-    }
-
-    for(const playerId of this.quizForm.get('regularPlayers')?.value) {
-      players[playerId] = true;
-    }
-
-    return players;
-  }
 
   // get date from moment object
   private getDate() {

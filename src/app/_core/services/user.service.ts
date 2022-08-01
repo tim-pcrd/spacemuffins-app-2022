@@ -35,7 +35,7 @@ export class UserService implements OnDestroy {
         .subscribe(data => {
           console.log(data);
           this.usersSource.next(data as IUser[]);
-        });
+        }, error => console.log(error));
     }
   }
 
